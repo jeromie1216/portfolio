@@ -14,14 +14,23 @@
   <style>
     body { background: #000; font-family: 'Inter', sans-serif; }
 
-    /* Site background image (fixed behind all sections).
-       Raise/lower the overlay alpha (.6/.75) to make the image darker/brighter. */
+    /* Programming-themed background (fixed behind all sections):
+       dark gradient + faint grid, with a canvas on top drawing a node network and drifting code. */
     .site-bg {
       position: fixed; inset: 0; z-index: -1;
       background:
-        linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.75)),
-        url("background.png") center / cover no-repeat;
+        radial-gradient(ellipse 60% 50% at 15% 10%, rgba(37,99,235,.18), transparent 60%),
+        radial-gradient(ellipse 50% 45% at 85% 85%, rgba(147,51,234,.16), transparent 60%),
+        linear-gradient(180deg, #05070f 0%, #070a17 50%, #05050c 100%);
     }
+    .site-bg::before {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(96,165,250,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(96,165,250,.05) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+    .site-bg canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
     ::selection { background: rgba(59,130,246,.35); }
 
     /* Spotlight sweep in hero */
@@ -71,7 +80,7 @@
   </style>
 </head>
 <body class="text-white antialiased overflow-x-hidden">
-  <div class="site-bg" aria-hidden="true"></div>
+  <div class="site-bg" aria-hidden="true"><canvas id="bg-canvas"></canvas></div>
 
   <!-- ===================== NAVBAR ===================== -->
   <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
@@ -582,6 +591,70 @@ document.addEventListener("mousemove", e => {
     el.style.setProperty("--y", `${e.clientY - r.top}px`);
   });
 });
+
+// --- Background: connected nodes + drifting code snippets
+(() => {
+  const canvas = $("#bg-canvas"), ctx = canvas.getContext("2d");
+  const SNIPPETS = ["</>", "{ }", "=>", "const app = express();", "<?php echo $data; ?>", "SELECT * FROM users;",
+    "git push origin main", "npm run dev", "function()", "async/await", "aws s3 cp", "return true;",
+    "<div class=\"app\">", "Route::get('/')", "v-if=\"user\"", "console.log()", "[ ]", "&&", "200 OK", "import Vue"];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let w, h, dpr, nodes, codes;
+
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const newCode = (y) => ({
+    text: SNIPPETS[Math.floor(Math.random() * SNIPPETS.length)],
+    x: rand(0, w), y: y ?? rand(0, h), vy: rand(.08, .25),
+    size: rand(11, 15), alpha: rand(.07, .18), color: Math.random() < .6 ? "96,165,250" : "192,132,252",
+  });
+
+  function init() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = innerWidth; h = innerHeight;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const count = Math.round(Math.min(70, (w * h) / 22000));
+    nodes = Array.from({ length: count }, () => ({ x: rand(0, w), y: rand(0, h), vx: rand(-.25, .25), vy: rand(-.25, .25) }));
+    codes = Array.from({ length: Math.round(count / 3) }, () => newCode());
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const c of codes) {
+      ctx.font = `500 ${c.size}px ui-monospace, Consolas, monospace`;
+      ctx.fillStyle = `rgba(${c.color},${c.alpha})`;
+      ctx.fillText(c.text, c.x, c.y);
+    }
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 170) {
+          ctx.strokeStyle = `rgba(96,165,250,${.2 * (1 - d / 170)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+      ctx.fillStyle = "rgba(147,197,253,.55)";
+      ctx.beginPath(); ctx.arc(a.x, a.y, 1.6, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  function step() {
+    for (const n of nodes) {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    }
+    codes.forEach((c, i) => { c.y -= c.vy; if (c.y < -20) codes[i] = newCode(h + 20); });
+    draw();
+    requestAnimationFrame(step);
+  }
+
+  init();
+  addEventListener("resize", () => { init(); if (reduce) draw(); });
+  reduce ? draw() : requestAnimationFrame(step);
+})();
 
 // --- Scroll reveal
 const io = new IntersectionObserver(entries => entries.forEach(en => {
