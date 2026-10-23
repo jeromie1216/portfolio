@@ -173,7 +173,7 @@
      </div>
 
       <!-- Floating featured project cards -->
-      <div class="reveal mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-5xl mx-auto" id="hero-cards"></div>
+      <div class="reveal mt-16 flex flex-wrap justify-center gap-4 max-w-5xl mx-auto" id="hero-cards"></div>
     </div>
 
     <a href="#about" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-600 hover:text-neutral-400 transition-colors z-10">
@@ -227,6 +227,27 @@
               Backend &amp; Tools
             </h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="backend"></div>
+          </div>
+          <div class="reveal">
+            <h3 class="text-xl font-semibold mb-6 flex items-center gap-2">
+              <svg class="text-emerald-400" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="7" rx="2"/><rect x="2" y="14" width="20" height="7" rx="2"/><path d="M6 6.5h.01M6 17.5h.01"/></svg>
+              Server, Cloud &amp; Tools
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="server"></div>
+          </div>
+          <div class="reveal">
+            <h3 class="text-xl font-semibold mb-6 flex items-center gap-2">
+              <svg class="text-amber-400" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+              Technical Support
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="support"></div>
+          </div>
+          <div class="reveal">
+            <h3 class="text-xl font-semibold mb-6 flex items-center gap-2">
+              <svg class="text-pink-400" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
+              Creative &amp; Multimedia
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="creative"></div>
           </div>
         </div>
       </div>
@@ -300,10 +321,11 @@
             <label class="block text-neutral-400 text-xs uppercase tracking-wider mb-1.5" for="f-message">Message</label>
             <textarea id="f-message" rows="5" required class="w-full bg-white/[0.05] border border-white/[0.1] rounded-xl px-4 py-3 text-white text-sm placeholder-neutral-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.07] transition-colors resize-none" placeholder="Tell me about your project..."></textarea>
           </div>
-          <button type="submit" class="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-medium text-sm transition-all">
+          <button type="submit" id="f-submit" class="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-medium text-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-            Send Message
+            <span id="f-submit-text">Send Message</span>
           </button>
+          <p id="f-status" class="hidden text-sm text-center rounded-xl px-4 py-3 border" role="status"></p>
         </form>
       </div>
     </div>
@@ -337,9 +359,9 @@ const DATA = {
   name: "Jerome A. Perez",
   initials: "JP",
   photo: "profile.jpg",
-  roles: ["Full Stack Web Developer", "Vue.js & Laravel Developer", "Problem Solver"],
-  summary: "Full Stack Web Developer with X+ years of experience building and maintaining web platforms. Specializes in Vue.js, Laravel and MySQL — delivering clean, scalable systems that solve real business problems.",
-  about: "I'm a developer with X+ years of full-stack experience building enterprise web systems with Vue.js, Laravel and MySQL — replacing manual paper-based processes with real-time digital workflows. I enjoy working closely with users, turning feedback into features, and keeping critical systems running smoothly.",
+  roles: ["Full Stack Web Developer", "PHP & Laravel Developer", "Vue.js Developer", "QA Team Lead", "Problem Solver"],
+  summary: "Full Stack Web Developer with X+ years of experience building and maintaining web platforms. Specializes in PHP, Laravel, Vue.js and MySQL — delivering clean, scalable systems that solve real business problems.",
+  about: "I'm a developer with X+ years of full-stack experience building enterprise web systems with PHP, Laravel, Vue.js and MySQL — replacing manual paper-based processes with real-time digital workflows. I also lead a team handling the Quality Assurance department, making sure every system we release is tested, reliable and ready for daily use. I'm a fast learner who quickly picks up new tools and technologies for every task. I also provide technical support, fixing computer problems on both the software and hardware side. I enjoy working closely with users, turning feedback into features, and keeping critical systems running smoothly.",
   tagline: "Full Stack Web Developer crafting web systems with Laravel, Vue.js, and Node.js.",
   cv: "#", // e.g. "resume.pdf" placed next to this file
   stats: [
@@ -348,7 +370,7 @@ const DATA = {
     { value: "100%", label: "Commitment" },
   ],
   contact: {
-    email: "you@example.com",
+    email: "jerlean121513@gmail.com",
     phone: "+63 900 000 0000",
     location: "City, Province, Philippines",
   },
@@ -358,47 +380,36 @@ const DATA = {
     facebook: "https://facebook.com/yourusername",
   },
   education: [
-    { school: "Your University", degree: "Bachelor of Science in Information Technology", years: "2014 – 2018" },
-    { school: "Your Senior High / College", degree: "Diploma in Computer Technology", years: "2012 – 2014" },
+    { school: "Your School Name", degree: "Associate in Computer Technology", years: "20XX – 20XX" },
   ],
-  softSkills: ["Problem Solving", "Team Collaboration", "Communication", "Time Management", "Adaptability", "Attention to Detail"],
-  frontend: ["HTML5", "CSS3", "JavaScript", "TypeScript", "Vue.js", "React", "Tailwind CSS", "Bootstrap", "jQuery"],
-  backend: ["PHP", "Laravel", "Node.js", "Express", "MySQL", "AWS", "REST APIs", "Git", "Linux", "Docker"],
+  softSkills: ["Team Leadership", "Quality Assurance", "Fast Learner", "Problem Solving", "Team Collaboration", "Communication", "Time Management", "Adaptability", "Attention to Detail"],
+  frontend: ["HTML5", "CSS3", "JavaScript", "Vue.js", "React", "Bootstrap", "jQuery"],
+  backend: ["PHP", "Laravel", "Node.js", "Express", "MySQL", "AWS", "REST APIs", "Git", "Linux"],
+  server: ["Linux Server Setup", "Middleware Installation", "AWS Connection & Setup", "Batch Scripting (.bat)", "Visual Studio (Learning)"],
+  support: ["Hardware Troubleshooting", "Software Troubleshooting", "PC Repair & Maintenance"],
+  creative: ["Video Editing", "Music Editing", "Adobe Photoshop"],
   experience: [
     {
       role: "Full Stack Web Developer",
-      company: "Company Name Inc.",
-      period: "2019 – Present",
+      company: "HRD S.PTE.LTD",
+      period: "2017-2023",
       gradient: "from-blue-500 to-cyan-500",
       points: [
-        "Engineered and deployed 5+ internal web platforms used daily across multiple departments.",
+        "Engineered and deployed 5+ in-house web platforms used daily across multiple departments.",
+        "Lead a team handling the Quality Assurance department — testing releases, tracking defects and ensuring every system meets quality standards before going live.",
         "Built a project tracking system that reduced task delays by an estimated 40%.",
         "Maintained and enhanced systems on local servers with near-zero downtime.",
         "Collaborated directly with end-users to iterate on features and improve adoption.",
       ],
-      tech: ["Vue.js", "Laravel", "MySQL", "Tailwind"],
+      tech: ["PHP", "Laravel", "Vue.js", "MySQL"],
     },
-    {
-      role: "Junior Developer / Previous Role",
-      company: "Previous Company",
-      period: "2017 – 2019",
-      gradient: "from-purple-500 to-pink-500",
-      points: [
-        "Describe a key responsibility or achievement here.",
-        "Describe another accomplishment with a measurable result.",
-        "Describe a skill you developed or process you improved.",
-      ],
-      tech: ["PHP", "JavaScript", "MySQL"],
-    },
+   
   ],
   // Use 0 or 3 "wide" cards so the 3-column grid has no gaps.
   projects: [
-    { title: "CloudBox", desc: "A cloud file storage web app where users can upload, organize, share and download files securely, powered by AWS infrastructure.", tech: ["PHP", "AWS"], icon: "☁️", gradient: "from-sky-600/30 to-indigo-600/10", iconBg: "bg-sky-500/20", link: "#", wide: true },
-    { title: "Checklist System", desc: "Verifies every checkpoint of a plan in production, ensuring zero mistakes before delivery.", tech: ["Laravel", "Blade", "MySQL"], icon: "✅", gradient: "from-emerald-600/30 to-teal-600/10", iconBg: "bg-emerald-500/20", link: "#" },
-    { title: "Order Tracking System", desc: "Streamlines inter-department order dispatch with real-time status updates.", tech: ["Vue.js", "Node.js", "Socket.io"], icon: "📦", gradient: "from-orange-600/30 to-amber-600/10", iconBg: "bg-orange-500/20", link: "#" },
-    { title: "Confirmation System", desc: "Centralized confirmations between departments with real-time communication and accountability.", tech: ["Vue.js", "Laravel"], icon: "🔔", gradient: "from-purple-600/30 to-pink-600/10", iconBg: "bg-purple-500/20", link: "#", wide: true },
-    { title: "Production Scheduler", desc: "Tracks production and delivery so priorities are completed on time with optimized resources.", tech: ["React", "Express", "MySQL"], icon: "🗓️", gradient: "from-rose-600/30 to-red-600/10", iconBg: "bg-rose-500/20", link: "#", wide: true },
-    { title: "Project Monitoring System", desc: "Monitors the status of projects across departments with real-time visibility and milestone tracking.", tech: ["Vue.js", "Laravel", "MySQL"], icon: "📊", gradient: "from-blue-600/30 to-cyan-600/10", iconBg: "bg-blue-500/20", link: "#" },
+    { title: "CloudBox", desc: "A cloud file storage web app where users can upload, organize, share and download files securely, powered by AWS infrastructure.", tech: ["PHP", "AWS"], icon: "☁️", gradient: "from-sky-600/30 to-indigo-600/10", iconBg: "bg-sky-500/20", link: "#" },
+    { title: "Request Management System", desc: "Handles and screens all incoming requests before they proceed to the support department, so every request is reviewed, prioritized and tracked from submission to resolution.", tech: ["PHP", "Laravel", "MySQL"], icon: "📨", gradient: "from-emerald-600/30 to-teal-600/10", iconBg: "bg-emerald-500/20", link: "#" },
+    { title: "Plans Monitoring System", desc: "Monitors the status of every plan in real time, giving teams clear visibility of progress, pending items and completed milestones.", tech: ["PHP", "Vue.js", "MySQL"], icon: "📊", gradient: "from-blue-600/30 to-cyan-600/10", iconBg: "bg-blue-500/20", link: "#" },
   ],
 };
 /* ===================================================================== */
@@ -485,7 +496,7 @@ onScroll();
 
 // --- Hero cards (first 3 projects)
 $("#hero-cards").innerHTML = DATA.projects.slice(0, 3).map((p, i) => `
-  <div class="group/card relative float" style="animation-delay:${i * 0.8}s">
+  <div class="group/card relative float w-full sm:w-80" style="animation-delay:${i * 0.8}s">
     <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-0 group-hover/card:opacity-20 blur transition duration-500"></div>
     <div class="relative rounded-2xl bg-neutral-950/80 border border-white/10 p-4 text-left backdrop-blur-sm">
       <div class="flex items-center gap-3 mb-3">
@@ -520,6 +531,9 @@ const techGrid = (list, color) => list.map(t =>
   `<div class="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.07] text-center text-neutral-300 text-sm font-medium hover:border-${color}-500/40 hover:text-white transition-colors duration-200 cursor-default">${esc(t)}</div>`).join("");
 $("#frontend").innerHTML = techGrid(DATA.frontend, "blue");
 $("#backend").innerHTML = techGrid(DATA.backend, "purple");
+$("#server").innerHTML = techGrid(DATA.server, "emerald");
+$("#support").innerHTML = techGrid(DATA.support, "amber");
+$("#creative").innerHTML = techGrid(DATA.creative, "pink");
 
 // --- Experience timeline (alternating on desktop)
 $("#timeline").innerHTML = DATA.experience.map((x, i) => {
@@ -575,12 +589,41 @@ $("#contact-info").insertAdjacentHTML("beforeend", [
     </div>
   </${x.href ? "a" : "div"}>`).join(""));
 
-// Contact form → opens the visitor's email app
-$("#contact-form").addEventListener("submit", e => {
+// Contact form → delivered to DATA.contact.email by FormSubmit (formsubmit.co).
+// The very first message triggers an activation email from FormSubmit; click its link once.
+$("#contact-form").addEventListener("submit", async e => {
   e.preventDefault();
-  const name = $("#f-name").value, email = $("#f-email").value;
-  const body = `${$("#f-message").value}\n\n— ${name} (${email})`;
-  location.href = `mailto:${c.email}?subject=${encodeURIComponent($("#f-subject").value)}&body=${encodeURIComponent(body)}`;
+  const form = e.target, btn = $("#f-submit"), btnText = $("#f-submit-text"), status = $("#f-status");
+  const showStatus = (ok, msg) => {
+    status.textContent = msg;
+    status.className = `text-sm text-center rounded-xl px-4 py-3 border ${ok
+      ? "text-green-400 bg-green-500/10 border-green-500/20"
+      : "text-red-400 bg-red-500/10 border-red-500/20"}`;
+  };
+  btn.disabled = true; btnText.textContent = "Sending...";
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(c.email)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name: $("#f-name").value,
+        email: $("#f-email").value,
+        _subject: `Portfolio: ${$("#f-subject").value}`,
+        message: $("#f-message").value,
+        _replyto: $("#f-email").value,
+        _template: "table",
+        _captcha: "false",
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || String(data.success) === "false") throw new Error(data.message);
+    form.reset();
+    showStatus(true, "Thanks! Your message has been sent. I'll get back to you soon.");
+  } catch {
+    showStatus(false, `Sorry, something went wrong. Please email me directly at ${c.email}.`);
+  } finally {
+    btn.disabled = false; btnText.textContent = "Send Message";
+  }
 });
 
 // --- Mouse-follow glow
