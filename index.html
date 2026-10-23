@@ -323,7 +323,7 @@ const DATA = {
   ],
   softSkills: ["Problem Solving", "Team Collaboration", "Communication", "Time Management", "Adaptability", "Attention to Detail"],
   frontend: ["HTML5", "CSS3", "JavaScript", "TypeScript", "Vue.js", "React", "Tailwind CSS", "Bootstrap", "jQuery"],
-  backend: ["PHP", "Laravel", "Node.js", "Express", "MySQL", "REST APIs", "Git", "Linux", "Docker"],
+  backend: ["PHP", "Laravel", "Node.js", "Express", "MySQL", "AWS", "REST APIs", "Git", "Linux", "Docker"],
   experience: [
     {
       role: "Full Stack Web Developer",
@@ -351,12 +351,14 @@ const DATA = {
       tech: ["PHP", "JavaScript", "MySQL"],
     },
   ],
+  // Use 0 or 3 "wide" cards so the 3-column grid has no gaps.
   projects: [
-    { title: "Project Monitoring System", desc: "Monitors the status of projects across departments with real-time visibility and milestone tracking.", tech: ["Vue.js", "Laravel", "MySQL"], icon: "📊", gradient: "from-blue-600/30 to-cyan-600/10", iconBg: "bg-blue-500/20", link: "#", wide: true },
+    { title: "CloudBox", desc: "A cloud file storage web app where users can upload, organize, share and download files securely, powered by AWS infrastructure.", tech: ["PHP", "AWS"], icon: "☁️", gradient: "from-sky-600/30 to-indigo-600/10", iconBg: "bg-sky-500/20", link: "#", wide: true },
     { title: "Checklist System", desc: "Verifies every checkpoint of a plan in production, ensuring zero mistakes before delivery.", tech: ["Laravel", "Blade", "MySQL"], icon: "✅", gradient: "from-emerald-600/30 to-teal-600/10", iconBg: "bg-emerald-500/20", link: "#" },
     { title: "Order Tracking System", desc: "Streamlines inter-department order dispatch with real-time status updates.", tech: ["Vue.js", "Node.js", "Socket.io"], icon: "📦", gradient: "from-orange-600/30 to-amber-600/10", iconBg: "bg-orange-500/20", link: "#" },
-    { title: "Confirmation System", desc: "Centralized confirmations between departments with real-time communication and accountability.", tech: ["Vue.js", "Laravel"], icon: "🔔", gradient: "from-purple-600/30 to-pink-600/10", iconBg: "bg-purple-500/20", link: "#" },
+    { title: "Confirmation System", desc: "Centralized confirmations between departments with real-time communication and accountability.", tech: ["Vue.js", "Laravel"], icon: "🔔", gradient: "from-purple-600/30 to-pink-600/10", iconBg: "bg-purple-500/20", link: "#", wide: true },
     { title: "Production Scheduler", desc: "Tracks production and delivery so priorities are completed on time with optimized resources.", tech: ["React", "Express", "MySQL"], icon: "🗓️", gradient: "from-rose-600/30 to-red-600/10", iconBg: "bg-rose-500/20", link: "#", wide: true },
+    { title: "Project Monitoring System", desc: "Monitors the status of projects across departments with real-time visibility and milestone tracking.", tech: ["Vue.js", "Laravel", "MySQL"], icon: "📊", gradient: "from-blue-600/30 to-cyan-600/10", iconBg: "bg-blue-500/20", link: "#" },
   ],
 };
 /* ===================================================================== */
